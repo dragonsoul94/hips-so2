@@ -14,6 +14,5 @@ import posix
 # Esta funcion verifica si hubieron modificaciones de los archivos binarios del sistema 
 # y los archivos /etc/passwd y /etc/shadow 
 
-def checkBPSfile():
-    #asdfgjshdf para probar el git
-    #mas cambios ah
+#def checkBPSfile():
+    
