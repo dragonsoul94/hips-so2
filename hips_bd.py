@@ -29,3 +29,15 @@ def create_table_BD():
     conn.close()
 
 create_table_BD()
+
+def main():
+    print("Creando Base de datos:")
+    #llamamos a la funcion para crear la base de datos
+    print("creando tablas:")
+    #llamamos a la funcion que crea las tablas, listamos las tablas creadas
+    print("rellenando tablas")
+    #funcion para rellenar con datos iniciales, imprime un OK de confirmacion.
+
+
+if '__main__' == __name__:
+  main()
