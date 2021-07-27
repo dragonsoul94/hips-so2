@@ -341,7 +341,7 @@ def quarantine(direc):
 
 
 # Funcion principal 
-def main():
+#def main():
   #check_md5sum_PS()
   #check_users_login()
   #check_promis_mode_apps()
@@ -351,5 +351,5 @@ def main():
   #check_tmp()
   #check_failed_ssh()
 
-if '__main__' == __name__:
-  main()
+#if '__main__' == __name__:
+  #main()
