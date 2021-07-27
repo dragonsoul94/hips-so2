@@ -349,7 +349,7 @@ def main():
   #check_failed_httpd_access()
   #check_resources()
   #check_tmp()
-  check_failed_ssh()
+  #check_failed_ssh()
 
 if '__main__' == __name__:
   main()
