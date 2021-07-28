@@ -19,11 +19,16 @@ Como medidas preventivas cuenta con:
 Para que funcione el HIPS se necesitan de algunas librerias y configuraciones previas.
 Este proceso se realizo en una distribucion Linux - CentOS 8.
 
-**Python 3**\n
+**Python 3**
+
 En la consola ejecutamos el comando: 'sudo yum install python3 -y'
-**PIP**\n
+
+**PIP**
+
 En la consola ejecutamos el comando: 'sudo yum install python3-pip -y'
+
 **PostgreSQL**\n
+
 En la consola ejecutamos los siguientes comandos, en el mismo orden:
 'sudo dnf install -y <https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm>'
 
