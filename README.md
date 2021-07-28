@@ -61,10 +61,10 @@ Asegurarse de tener activado el entorno virtual, luego para instalar una libreri
 
 Las siguientes librerias necesitan ser instaladas:
 
--psycopg2
--flask
--flask-login
--sqlalchemy
+- psycopg2
+- flask
+- flask-login
+- sqlalchemy
 
 ## Configuracion de la Base de Datos
 
