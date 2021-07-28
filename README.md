@@ -60,6 +60,7 @@ Asegurarse de tener activado el entorno virtual, luego para instalar una libreri
 **Librerias utilizadas**
 
 Las siguientes librerias necesitan ser instaladas:
+
 -psycopg2
 -flask
 -flask-login
