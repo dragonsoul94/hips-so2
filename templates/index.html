@@ -1,15 +1,47 @@
-<!doctype html>
 
-
-<head><title>HIPS</title> 
-    <meta charset=utf-8> </head>
-    <body>
-        <h1>HIPS</h1>
-        <form action="/check_md5sum/">
-            <input type="submit" value="Click me" />
-        </form>
-        
-        <button> <a href="/check_md5sum/">Click me</a></button>
-        
-        
-    </body>
+  <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HIPS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script type="text/javascript" >
+      function preventBack(){window.history.forward();}
+       setTimeout("preventBack()", 0);
+       window.onunload=function(){null};
+   </script>
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <section class="hero is-success is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            HIPS
+          </h1>
+          <button> <a href="/check_md5sum/">Check md5sum</a></button><br><br>
+          <button> <a href="/check_users_login/">Check users login</a></button><br><br>
+          <button> <a href="/check_promis_mode_apps/">Check promis mode apps</a></button><br><br>
+          <button> <a href="/check_authentication_logs/">Check authentication logs</a></button><br><br>
+          <button> <a href="/check_failed_httpd_access/">Check failed httpd access</a></button><br><br>
+          <button> <a href="/check_tmp/">Check /tmp</a></button><br><br>
+          <button> <a href="/check_failed_ssh/">Check failed ssh</a></button><br><br>
+          <button> <a href="/logout/">logout</a></button><br><br>
+          <script
+          <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'info',
+                text: "{{message}}",
+                showConfirmButton: true,
+                timer: 5000
+            })
+        </script>
+          </script>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
