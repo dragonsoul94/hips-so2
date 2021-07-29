@@ -1,6 +1,7 @@
 # HIPS - SO2
 
-HIPS desarrollado con Python y Flask para SO2 - 2021.
+HIPS desarrollado con Python y Flask para SO2 - 2021. Desarrollado por *adriram*.
+
 Funcionaliades:
 
 - Determinar cambios en los archivos /etc/passwd y /etc/shadow a traves de md5sum.
