@@ -390,9 +390,83 @@ def check_failed_ssh():
       send_mail_alert("Se bloqueo una o varias IPs", mailb)
   return msg
 
+# Nombre: cron_script(dir)
+#
+#
+#
+def cron_script(dire):
+  #revisamos scripts
+  risk = ['.py','.c','.ruby','.php','.perl','.sh']
+  msg = ''
+  dire = dire.split("/")
+  script = dire[-1]
+  print(script)
+  for i in risk:
+    if i in script:
+      msg = "Posible script ejecutandose como cron."
+      #alarma
+      log_alarmas(msg,"")
+  # #revisamos si alguno tiene un shell osea #!
+  # p = subprocess.Popen('cat '+ dire[0] + ' | grep "#!"', stdout=subprocess.PIPE,shell=True)
+  # (out, err) = p.communicate()
+  # scron = out.decode('utf-8')
+  # if scron != '':
+  #   #tiene un shell
+  #   temp = "Archivo ejecutable en shell ejecutandose en cron."
+  #   log_alarmas(temp,'')
+  #   msg += temp
+  return msg
 
+# Nombre: cron_riskapp(dir)
+#
+#
+#
+def cron_riskapp(dire):
+  #extraemos de la BD las apps sospechosas
+  risklist = connect_hipso2(4)
+  msg = ''
+  dire = dire.split("/")
+  da = dire[-1]
+  for line in range(0,len(risklist)):
+    if da in line:
+      #app sospechosa
+      msg = "posible programa sospechoso ejecutandose como cron."
+      #
+      log_alarmas(msg,"")
+  return msg
+
+# Nombre: check_cron()
+#
+# 
+#
+def check_cron():
+  #revisamos
+  p = subprocess.Popen('crontab -l', stdout=subprocess.PIPE,shell=True)
+  (out, err) = p.communicate()
+  lcron = out.decode('utf-8')
+  cron_s = ''
+  cron_rp = ''
+  msg = ''
+  for line in lcron.splitlines():
+    #revisamos scripts
+    ch = cron_script(line)
+    #print(ch)
+    if ch != '':
+      cron_s = ch
+    #revisamos aplicaciones sospechosas
+    #chp = cron_riskapp(line)
+    chp = ''
+    #print(chp)
+    if chp != '':
+      cron_rp = chp
+    if cron_s != '' and cron_rp != '':
+      msg = "no se encuentran scripts/shells en cron."
+    else:
+      msg = cron_s + ' ' + cron_rp
+      send_mail_alert("Script/Shells ejecutandose en cron",lcron)
+  return msg
 # Funcion principal 
-#def main():
+def main():
   #check_md5sum_PS()
   #check_users_login()
   #check_promis_mode_apps()
@@ -400,6 +474,8 @@ def check_failed_ssh():
   #check_failed_httpd_access()
   #check_tmp()
   #check_failed_ssh()
+  a = check_cron()
+  print(a)
 
-# if '__main__' == __name__:
-#   main()
+if '__main__' == __name__:
+  main()
