@@ -98,7 +98,19 @@ CREATE TABLE login (id integer, username varchar(30), password varchar(30));
 CREATE TABLE sniffer (name varchar(30));
 ```
 
-Para crear un usuario se necesita cargar de antemano en la tabla login, para ello:
+Cargamos los datos relacionados al usuario y los programas peligrosos (lista abajo):
+
+- solarwinds
+- prtg
+- manageengine
+- omnipeek
+- tcpdump
+- windump
+- wireshark
+- fiddler
+- netresec
+- capsa
+- ethereal
 
 ``` SQL
 INSERT INTO login (id, username, password) VALUES (num_id, 'username', 'password')
