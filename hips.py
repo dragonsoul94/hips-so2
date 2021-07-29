@@ -49,7 +49,7 @@ def connect_hipso2(option):
     except psycopg2.Error:
       print("ERROR.")
   elif option == 2: #login
-    sql = '''SELECT * FROM login'''
+    sql = '''SELECT * FROM login;'''
     try:
       curr.execute(sql)
       result = curr.fetchall()
@@ -512,7 +512,7 @@ def check_cron():
   lcron = out.decode('utf-8')
   cron_s = ''
   cron_rp = ''
-  msg = ''
+  msg = "no se encuentran scripts/shells en cron."
   for line in lcron.splitlines():
     #revisamos scripts
     ch = cron_script(line)
@@ -525,9 +525,7 @@ def check_cron():
     #print(chp)
     if chp != '':
       cron_rp = chp
-    if cron_s != '' and cron_rp != '':
-      msg = "no se encuentran scripts/shells en cron."
-    else:
+    if cron_s != '' or cron_rp != '':
       msg = cron_s + ' ' + cron_rp
       send_mail_alert("Script/Shells ejecutandose en cron",lcron)
   return msg

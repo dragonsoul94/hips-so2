@@ -54,13 +54,13 @@ def login():
         password = request.form['password']
         if username == '':
             return redirect(url_for('login'))
-
-        user = [x for x in users if x.username == username][0]
-        if user and user.password == password:
-            session['user_id'] = user.id
-            return redirect(url_for('index'))
-
-        return redirect(url_for('login'))
+        try:
+            user = [x for x in users if x.username == username][0]
+            if user and user.password == password:
+                session['user_id'] = user.id
+                return redirect(url_for('index'))
+        except:
+            redirect(url_for('login'))
 
     return render_template('login.html')
 
