@@ -105,6 +105,11 @@ def check_failed_ssh():
     result = hips.check_failed_ssh()
     return render_template('index.html', message = result)
 
+@app.route('/check_cron/')
+def check_cron():
+    result = hips.check_cron()
+    return render_template('index.html', message = result)
+
 @app.route('/logout/')
 def logout():
     session.pop('user_id', None)

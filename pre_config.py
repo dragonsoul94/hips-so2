@@ -16,6 +16,8 @@ def create_dir():
     # fichero /tmp/quarantine
     # este fichero tiene como funcion almacenar los ficheros maliciosos
         os.system('sudo mkdir /tmp/quarantine')
+    #le cambiamos los permisos
+        os.system('chmod 644 /tmp/quarantine')
     # fichero /var/logs/hips
     # este fichero tiene como funcion almacenar las alarmas y modulos de prevencion
         os.system('sudo mkdir /var/log/hips')

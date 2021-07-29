@@ -57,6 +57,16 @@ def connect_hipso2(option):
       return result
     except psycopg2.Error:
       print("Error")
+  elif option == 3: #riskapp o sniffer
+    sql = '''SELECT * FROM sniffer;'''
+    try:
+      curr.execute(sql)
+      result = curr.fetchall()
+      #print(result)
+      return result
+    except psycopg2.Error:
+      print("Error")
+
   #cerramos la base de datos
   conn.close()
 
@@ -99,6 +109,14 @@ def ipblock(ip):
 #
 def quarantine(direc):
   p = subprocess.Popen('mv ' + direc + ' /tmp/quarantine', stdout=subprocess.PIPE,shell=True)
+  (out,err) = p.communicate()
+
+# Nombre: killproc(pid_app)
+#
+# Esta funcion mata el proceso cuyo pid se recibe como parametro
+#
+def killproc(pid_app):
+  p = subprocess.Popen('kill -9 ' + str(pid_app), stdout=subprocess.PIPE,shell=True)
   (out,err) = p.communicate()
 
 # Nombre: alarmas_log(alarm_type, ip_source)
@@ -237,6 +255,49 @@ def if_promis_mode():
   # en teoria no puede comprobar si es que entro usando ifconfig [interface] promisc
   return status
 
+# Nombre: promis_apps():
+#
+# Esta funcion revisa si estan en ejecucion aplicaciones conocidas por sniffers
+#
+def promis_apps():
+  sniffer = connect_hipso2(3)
+  listapp = ''
+  msg = ''
+  #flags para el correo
+  fa = 0
+  fp = 0
+  mf = 0
+  #nos pide esto el comando
+  for line in sniffer:
+    listapp += line[0] + '|'
+  listapp = listapp[:-1]
+  print(listapp)
+  p = subprocess.Popen('ps axo pid,cmd | grep -E "' + listapp + '" |grep -v "' + listapp + '"', stdout=subprocess.PIPE, shell=True)
+  (out, err) = p.communicate()
+  cla = out.decode('utf-8')
+  print(cla)
+  if len(cla)>1:
+    for line in cla.splitlines():
+      pid_app = line.split(' ')[0]
+      name_app = line.split(' ')[1]
+      killproc(pid_app)
+      quarantine(name_app)
+      #alarma
+      msg = 'Se encontro un programa sospechoso de sniffer'
+      log_alarmas(msg,'')
+      fa = 1
+      t = 'programas cerrados y archivos enviados a quarentena'
+      log_prevencion(msg,t)
+      fp = 1
+      msg += ' ' + t
+  else:
+    mf = 0
+  if fa != 0 and fp != 0:
+    mf = 1
+    send_mail_alert('Programas sospechosos de sniffer', msg)
+  return mf
+
+
 # Nombre: check_promis_mode_apps()
 # 
 #  Funcion que realiza la inspeccion de apps que pueden poner el NIC en modo promiscuo
@@ -244,12 +305,16 @@ def if_promis_mode():
 def check_promis_mode_apps():
   #determinamos si el equipo entro en modo promiscuo
   st = if_promis_mode()
-  #promis_apps()
+  at = promis_apps()
+  print(at)
   if st == 1:
     msg = "NIC en modo promiscuo"
+    if at == 1:
+      msg += ' Se encontraron programas de sniffer.'
   else:
     msg = "No se detecta que este en modo promiscuo el NIC del servidor"
   return msg
+
 # Nombre: check_authentication_logs()
 #
 # Revisa el dir /var/log/secure para controlar si hubieron errores de autenticacion, avisando al admin
@@ -272,6 +337,7 @@ def check_authentication_logs():
   else:
     msg = "No se detectaron errores de autenticacion."
   return msg
+
 # Nombre: check_failed_httpd_access()
 #
 # Revisa el dir /var/log/httpd/access_log en busca de ingresos indebidos desde el servidor web
@@ -392,7 +458,7 @@ def check_failed_ssh():
 
 # Nombre: cron_script(dir)
 #
-#
+# Funcion que revisa si se encuentran scripts en el cron
 #
 def cron_script(dire):
   #revisamos scripts
@@ -419,7 +485,7 @@ def cron_script(dire):
 
 # Nombre: cron_riskapp(dir)
 #
-#
+# funcion que revisa si aplicaciones peligrosas estan en cron
 #
 def cron_riskapp(dire):
   #extraemos de la BD las apps sospechosas
@@ -437,7 +503,7 @@ def cron_riskapp(dire):
 
 # Nombre: check_cron()
 #
-# 
+#   funcion que revisa si hay scripts o apps en cron
 #
 def check_cron():
   #revisamos
@@ -465,8 +531,9 @@ def check_cron():
       msg = cron_s + ' ' + cron_rp
       send_mail_alert("Script/Shells ejecutandose en cron",lcron)
   return msg
+  
 # Funcion principal 
-def main():
+#def main():
   #check_md5sum_PS()
   #check_users_login()
   #check_promis_mode_apps()
@@ -474,8 +541,7 @@ def main():
   #check_failed_httpd_access()
   #check_tmp()
   #check_failed_ssh()
-  a = check_cron()
-  print(a)
+  #check_cron()
 
-if '__main__' == __name__:
-  main()
+# if '__main__' == __name__:
+#   main()
