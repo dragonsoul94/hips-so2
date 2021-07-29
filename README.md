@@ -1,6 +1,6 @@
 # HIPS - SO2
 
-HIPS desarrollado con Python y Flask para SO2 - 2021. Desarrollado por *adriram*.
+HIPS desarrollado con Python y Flask para SO2 - 2021. Desarrollado por *Adrian Ramirez*.
 
 Funcionalidades:
 
