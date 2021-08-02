@@ -98,10 +98,8 @@ def compare_md5sum(md5p, cmd5p, md5s, cmd5s):
 # Esta funcion bloquea la ip recibida como parametro usando IPtables
 #
 def ipblock(ip):
-  p = subprocess.Popen("iptables -I INPUT -s "+ ip + "-j DROP", stdout=subprocess.PIPE,shell=True)
+  p = subprocess.Popen("iptables -I INPUT -s "+ ip + " -j DROP", stdout=subprocess.PIPE,shell=True)
   (out,err) = p.communicate()
-  p = subprocess.Popen("iptables -I INPUT -s "+ ip + "-j DROP", stdout=subprocess.PIPE,shell=True)
-  (out,err) = p.communicate() 
 
 # Nombre: quarantine(dir)
 #
@@ -360,10 +358,12 @@ def check_failed_httpd_access():
   for line in lip:
     i = line.split(" ")[0]
     ips.append(i)
+    print(ips)
     #alertamos
     log_alarmas("Error de acceso a directorios desconocidos en servidor web",i)
   #bloqueamos las ip
   for i in ips:
+    print(i)
     ipblock(ip)
     mailb += i
     log_prevencion("Error de acceso a directorios desconocidos en servidor web", "Bloqueo de IP usando IPtables")
