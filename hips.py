@@ -4,7 +4,7 @@
 # Trabajo Practico Sistemas Operativos 2 - HIPS
 # Autor: Adriram99
 
-#librerias
+#librerias y mas librerias
 import os
 import subprocess
 import posix
